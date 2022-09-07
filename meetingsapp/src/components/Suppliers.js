@@ -25,83 +25,47 @@ const options = [
 const Suppliers = () => {
   const [enteredInitalDate, setEnteredInitalDate] = useState("");
   const [enteredFinalDate, setEnteredFinalDate] = useState("");
+  const [maxValue, setMaxValue] = useState("");
+  const [minValue, setMinValue] = useState("");
+  const initialValueInput = useRef();
+  const finalValueInput = useRef();
 
-  const initialDateInput = useRef("");
-  const initialDateInputHandler = (event) => {
-    const value = event.value;
-    console.log(value);
-    setEnteredInitalDate(value);
+  const initialInputChange = () => {
+    console.log(initialValueInput.current.value);
+    finalValueInput.current.value = +initialValueInput.current.value + 1;
+    setMaxValue(+initialValueInput.current.value + 2);
+    setMinValue(+initialValueInput.current.value + 1);
+  };
+  const submitHandler = () => {
+    setEnteredInitalDate(initialValueInput.current.value);
+    setEnteredFinalDate(finalValueInput.current.value);
+
     console.log(enteredInitalDate);
-    validarHoraInicial(enteredFinalDate);
-    for (let index = 0; index < horario.length; index++) {
-      const element = horario[index];
-      console.log(element);
-      if (element.value === value) {
-        if (element.disp === true) {
-          console.log("Hora Disponible");
-          horario.map(function (dato) {
-            if (dato.value === value) {
-              dato.disp = false;
-            }
-            return dato;
-          });
-        } else {
-          console.log("No se encuentra Disponible");
-          return;
-        }
-      }
-    }
-    console.log(horario);
-  };
-  const finalDateInput = useRef("");
-  const finallDateInputHandler = (event) => {
-    const value = event.value;
-    console.log(value);
-    setEnteredFinalDate(value);
-    console.log(enteredFinalDate);
-  };
-  const validarHoraInicial = (enteredInitalDate) => {
-    for (let index = 0; index < horario.length; index++) {
-      const element = horario[index];
-      if (element.value === enteredInitalDate) {
-        if (element.disp === true) {
-          console.log("Hora Disponible");
-        } else {
-          console.log("No se encuentra Disponible");
-          return;
-        }
-      }
-    }
-  };
 
-  const submitFormHandler = (event) => {
-    event.preventDefault();
-    const enteredInitialvalue = initialDateInput.current.value;
-    console.log(enteredInitialvalue);
-    const enteredFinalValue = finalDateInput.current.value;
-    console.log(enteredFinalValue);
+    console.log(enteredFinalDate);
   };
 
   return (
     <div className={classes.suppliersContainer}>
-      <form onSubmit={submitFormHandler} className={classes.form}>
+      <form className={classes.form} onSubmit={submitHandler}>
         <div className={classes.selectors}>
           <label>Hora de Inicio</label>
-          <Select
-            options={options}
-            onChange={initialDateInputHandler}
-            ref={initialDateInput}
-          ></Select>
-          <label>{enteredInitalDate} </label>
+          <input
+            type="number"
+            max="15"
+            min="7"
+            ref={initialValueInput}
+            onChange={initialInputChange}
+          ></input>
         </div>
         <div className={classes.selectors}>
           <label>Hora de finalizacion</label>
-          <Select
-            options={options}
-            ref={finalDateInput}
-            onChange={finallDateInputHandler}
-          ></Select>
-          <label>{enteredFinalDate} </label>
+          <input
+            type="number"
+            ref={finalValueInput}
+            min={minValue}
+            max={maxValue}
+          ></input>
         </div>
       </form>
     </div>

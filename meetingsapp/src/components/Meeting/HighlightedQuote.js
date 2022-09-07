@@ -5,7 +5,7 @@ import classes from "./HighlightedQuote.module.css";
 const HighlightedQuote = (props) => {
   const [currentDay, setCurrentDay] = useState("");
 
-  const fechaComoCadena = "2020-03-09 23:37:22"; // día lunes
+  const fechaComoCadena = "2022-09-07"; // día lunes
   const dias = [
     "Lunes",
     "Martes",
